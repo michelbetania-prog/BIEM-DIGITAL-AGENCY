@@ -1,0 +1,7 @@
+{
+  "name": "AI Growth Diagnoser by BIEM",
+  "description": "A high-end strategic diagnostic tool that analyzes your digital presence, generates a Growth Score, and provides prioritized marketing recommendations.",
+  "requestFramePermissions": [
+    "geolocation"
+  ]
+}
