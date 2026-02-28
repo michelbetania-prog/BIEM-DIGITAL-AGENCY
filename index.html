@@ -1,65 +1,851 @@
-
-<!DOCTYPE html>
+<!doctype html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Biem | Diagnóstico de Crecimiento Estratégico</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <script>
-      tailwind.config = {
-        theme: {
-          extend: {
-            colors: {
-              biem: {
-                orange: '#ff7315',
-                dark: '#0a0a0a',
-                card: '#141414',
-              }
-            },
-            fontFamily: {
-              sans: ['Plus Jakarta Sans', 'sans-serif'],
-            }
-          }
-        }
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Diagnóstico Interactivo - Método ACAE™</title>
+  <style>
+    /* =========================================
+       Variables de diseño (paleta premium)
+    ========================================= */
+    :root {
+      --primary-color: #371e68;
+      --primary-hover: #4a2b86;
+      --primary-soft: #ece8f8;
+      --background: #f8f9fb;
+      --surface: #ffffff;
+      --text-main: #1f2230;
+      --text-muted: #707585;
+      --border: #e9eaf0;
+      --success: #12805c;
+      --danger: #b4233d;
+      --shadow-soft: 0 14px 30px rgba(17, 24, 39, 0.06);
+      --radius-card: 16px;
+      --radius-control: 14px;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: "Inter", "Segoe UI", Roboto, -apple-system, BlinkMacSystemFont, sans-serif;
+      color: var(--text-main);
+      background: radial-gradient(1200px 600px at 20% -10%, #f0ecfb 0%, var(--background) 48%, #f8f9fb 100%);
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      padding: 24px;
+    }
+
+    .wizard {
+      width: min(880px, 100%);
+      background: rgba(255, 255, 255, 0.84);
+      backdrop-filter: blur(5px);
+      border: 1px solid #f1f2f6;
+      border-radius: var(--radius-card);
+      box-shadow: var(--shadow-soft);
+      overflow: hidden;
+    }
+
+    /* =========================================
+       Encabezado
+    ========================================= */
+    .wizard-header {
+      padding: 28px 30px 14px;
+      position: relative;
+    }
+
+    .header-icon {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      background: radial-gradient(circle at 30% 30%, #7c64b2, var(--primary-color));
+      box-shadow: 0 10px 18px rgba(55, 30, 104, 0.25);
+      margin-bottom: 14px;
+      position: relative;
+    }
+
+    .header-icon::after {
+      content: "";
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      border: 2px solid rgba(255, 255, 255, 0.65);
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--primary-color);
+      background: var(--primary-soft);
+      padding: 8px 12px;
+      border-radius: 999px;
+    }
+
+    h1 {
+      margin: 12px 0 8px;
+      font-size: clamp(1.4rem, 2.6vw, 2rem);
+      line-height: 1.25;
+      color: var(--primary-color);
+    }
+
+    .subtitle { margin: 0; color: var(--text-muted); }
+    .privacy-note {
+      margin-top: 8px;
+      margin-bottom: 0;
+      font-size: 0.88rem;
+      color: var(--text-muted);
+    }
+
+    /* =========================================
+       Barra de progreso
+    ========================================= */
+    .progress-wrap { padding: 0 30px 8px; }
+
+    .progress-meta {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      color: var(--text-muted);
+      font-size: 0.92rem;
+      margin-bottom: 10px;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .progress-track {
+      height: 10px;
+      width: 100%;
+      border-radius: 999px;
+      background: #ececf3;
+      border: 1px solid #e4e5ec;
+      overflow: hidden;
+    }
+
+    .progress-bar {
+      height: 100%;
+      width: 0;
+      border-radius: inherit;
+      background: linear-gradient(90deg, #5a3f97 0%, var(--primary-color) 90%);
+      transition: width 420ms cubic-bezier(.2,.8,.2,1);
+    }
+
+    /* =========================================
+       Área de contenido
+    ========================================= */
+    .wizard-body {
+      padding: 24px 30px 30px;
+      min-height: 460px;
+    }
+
+    .screen {
+      opacity: 0;
+      transform: translateY(10px) scale(0.995);
+      animation: changeScreen 320ms ease forwards;
+    }
+
+    @keyframes changeScreen {
+      to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
       }
-    </script>
-    <style>
-        body {
-            background-color: #0a0a0a;
-            color: #ffffff;
-            overflow-x: hidden;
-        }
-        .gradient-bg {
-            background: radial-gradient(circle at 0% 0%, #2a1508 0%, #0a0a0a 50%),
-                        radial-gradient(circle at 100% 100%, #1a1a1a 0%, #0a0a0a 50%);
-        }
-        .orange-glow {
-            box-shadow: 0 0 40px -10px rgba(255, 115, 21, 0.3);
-        }
-        @keyframes subtle-bounce {
-          0%, 100% { transform: translateY(0); }
-          50% { transform: translateY(-5px); }
-        }
-        .animate-subtle {
-          animation: subtle-bounce 3s ease-in-out infinite;
-        }
-    </style>
-<script type="importmap">
-{
-  "imports": {
-    "react": "https://esm.sh/react@^19.2.4",
-    "react-dom/": "https://esm.sh/react-dom@^19.2.4/",
-    "react/": "https://esm.sh/react@^19.2.4/",
-    "@google/genai": "https://esm.sh/@google/genai@^1.42.0",
-    "recharts": "https://esm.sh/recharts@^3.7.0",
-    "lucide-react": "https://esm.sh/lucide-react@^0.575.0"
-  }
-}
-</script>
+    }
+
+    .block-badge {
+      display: inline-flex;
+      border: 1px solid #e5e3ef;
+      color: var(--primary-color);
+      background: #f7f5fc;
+      font-weight: 600;
+      border-radius: 999px;
+      padding: 7px 11px;
+      font-size: 0.86rem;
+      margin-bottom: 14px;
+    }
+
+    .question-title {
+      margin: 0 0 20px;
+      font-size: clamp(1.12rem, 2.2vw, 1.45rem);
+      line-height: 1.38;
+    }
+
+    .options {
+      display: grid;
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+
+    .option-card {
+      position: relative;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-control);
+      background: #fff;
+      padding: 14px 16px;
+      display: flex;
+      gap: 12px;
+      align-items: flex-start;
+      cursor: pointer;
+      transition: border-color 180ms ease, box-shadow 200ms ease, transform 180ms ease, background 200ms ease;
+    }
+
+    .option-card:hover {
+      border-color: #c7bce3;
+      box-shadow: 0 10px 24px rgba(55, 30, 104, 0.09);
+      transform: translateY(-1px);
+    }
+
+    .option-card input {
+      accent-color: var(--primary-color);
+      margin-top: 2px;
+      transform: scale(1.08);
+    }
+
+    /* Micro animación + check visual al seleccionar */
+    .option-card.active {
+      border-color: var(--primary-color);
+      background: #f4f1fb;
+      animation: popSelect 220ms ease;
+      box-shadow: 0 8px 20px rgba(55, 30, 104, 0.12);
+    }
+
+    .option-card.active::after {
+      content: "✓";
+      position: absolute;
+      right: 12px;
+      top: 10px;
+      font-size: 0.85rem;
+      color: #fff;
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background: var(--primary-color);
+      display: grid;
+      place-items: center;
+      box-shadow: 0 6px 14px rgba(55, 30, 104, 0.25);
+    }
+
+    @keyframes popSelect {
+      0% { transform: scale(0.99); }
+      70% { transform: scale(1.01); }
+      100% { transform: scale(1); }
+    }
+
+    .scale-wrap {
+      border: 1px solid var(--border);
+      border-radius: var(--radius-control);
+      padding: 16px;
+      background: #fcfcff;
+      margin-bottom: 20px;
+    }
+
+    .scale-row {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 8px;
+      color: var(--text-muted);
+      font-size: 0.9rem;
+    }
+
+    input[type="range"] {
+      width: 100%;
+      accent-color: var(--primary-color);
+    }
+
+    .scale-value {
+      margin-top: 8px;
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: var(--primary-color);
+    }
+
+    .error {
+      min-height: 20px;
+      margin-bottom: 10px;
+      color: var(--danger);
+      font-size: 0.9rem;
+    }
+
+    .actions {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      margin-top: 8px;
+    }
+
+    .btn {
+      min-height: 50px;
+      border: none;
+      border-radius: 12px;
+      padding: 0 22px;
+      font-weight: 700;
+      font-size: 0.97rem;
+      cursor: pointer;
+      transition: transform 150ms ease, box-shadow 200ms ease, background 200ms ease;
+    }
+
+    .btn-secondary {
+      background: #f2f3f7;
+      color: #474c5f;
+    }
+
+    .btn-secondary:hover { background: #e9ebf1; }
+
+    .btn-primary {
+      margin-left: auto;
+      color: #fff;
+      background: var(--primary-color);
+      box-shadow: 0 10px 20px rgba(55, 30, 104, 0.24);
+    }
+
+    .btn-primary:hover {
+      background: var(--primary-hover);
+      transform: translateY(-1px);
+      box-shadow: 0 14px 26px rgba(55, 30, 104, 0.3);
+    }
+
+    .btn:active { transform: translateY(1px); }
+
+    .email-card {
+      border: 1px solid var(--border);
+      border-radius: var(--radius-control);
+      background: #fcfbff;
+      padding: 16px;
+      margin-bottom: 18px;
+    }
+
+    .email-card p {
+      margin-top: 0;
+      margin-bottom: 10px;
+      color: var(--text-muted);
+    }
+
+    .input {
+      width: 100%;
+      min-height: 48px;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      padding: 0 14px;
+      font-size: 1rem;
+      outline: none;
+      transition: border-color 180ms ease, box-shadow 180ms ease;
+    }
+
+    .input:focus {
+      border-color: #a18fcf;
+      box-shadow: 0 0 0 4px rgba(55, 30, 104, 0.08);
+    }
+
+    /* =========================================
+       Pantalla final
+    ========================================= */
+    .status {
+      color: var(--success);
+      font-weight: 700;
+      margin-bottom: 14px;
+    }
+
+    .result-main {
+      background: #f8f6fe;
+      border: 1px solid #e6ddfb;
+      border-radius: 14px;
+      padding: 18px;
+      margin-bottom: 18px;
+      font-size: clamp(1.05rem, 2vw, 1.25rem);
+      line-height: 1.4;
+      color: var(--primary-color);
+      font-weight: 700;
+    }
+
+    .bars {
+      display: grid;
+      gap: 12px;
+      margin-bottom: 18px;
+    }
+
+    .bar-item {
+      display: grid;
+      grid-template-columns: 1.4fr 4fr auto;
+      align-items: center;
+      gap: 10px;
+      font-size: 0.92rem;
+    }
+
+    .bar-track {
+      height: 12px;
+      border-radius: 999px;
+      background: #ebebf0;
+      overflow: hidden;
+    }
+
+    .bar-fill {
+      height: 100%;
+      width: 0;
+      border-radius: inherit;
+      background: linear-gradient(90deg, #5a3f97, var(--primary-color));
+      transition: width 700ms ease;
+    }
+
+    .improvements {
+      margin: 0 0 20px;
+      padding-left: 18px;
+    }
+
+    .improvements li { margin-bottom: 6px; }
+
+    .cta {
+      width: 100%;
+      min-height: 52px;
+      border: none;
+      border-radius: 12px;
+      color: #fff;
+      font-weight: 700;
+      font-size: 1rem;
+      background: var(--primary-color);
+      cursor: pointer;
+      box-shadow: 0 12px 24px rgba(55, 30, 104, 0.28);
+      transition: background 200ms ease, transform 150ms ease;
+    }
+
+    .cta:hover {
+      background: var(--primary-hover);
+      transform: translateY(-1px);
+    }
+
+    /* =========================================
+       Responsive
+    ========================================= */
+    @media (max-width: 720px) {
+      body { padding: 0; }
+      .wizard {
+        border-radius: 0;
+        min-height: 100vh;
+      }
+      .wizard-header,
+      .progress-wrap,
+      .wizard-body {
+        padding-left: 18px;
+        padding-right: 18px;
+      }
+      .bar-item { grid-template-columns: 1fr; gap: 6px; }
+      .actions {
+        flex-direction: column-reverse;
+        gap: 10px;
+      }
+      .btn,
+      .btn-primary,
+      .btn-secondary,
+      .cta {
+        width: 100%;
+        min-height: 52px;
+      }
+    }
+  </style>
 </head>
-<body class="gradient-bg min-h-screen">
-    <div id="root"></div>
+<body>
+  <main class="wizard" aria-live="polite">
+    <header class="wizard-header">
+      <div class="header-icon" aria-hidden="true"></div>
+      <span class="eyebrow">Método ACAE™ · Diagnóstico interactivo</span>
+      <h1>Descubre qué tan preparado está tu negocio para crecer</h1>
+      <p class="subtitle">Responde 12 preguntas rápidas y obtén una guía clara de tus siguientes pasos.</p>
+      <p class="privacy-note">Tus respuestas son privadas.</p>
+    </header>
+
+    <section class="progress-wrap">
+      <div class="progress-meta">
+        <span id="progressLabel">Pregunta 1 de 12</span>
+        <span id="progressPercent">8%</span>
+      </div>
+      <div class="progress-track" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="8">
+        <div class="progress-bar" id="progressBar"></div>
+      </div>
+    </section>
+
+    <section class="wizard-body" id="app"></section>
+  </main>
+
+  <script>
+    /* =========================================
+       Preguntas del diagnóstico ACAE™
+    ========================================= */
+    const questions = [
+      { id: "claridad_1", areaKey: "claridad", areaLabel: "Dirección de tu negocio", type: "single", text: "¿Qué tan claro tienes tu objetivo principal para los próximos 12 meses?", options: [
+        { label: "Muy claro y por escrito", score: 3 },
+        { label: "Claro en general, pero no definido al detalle", score: 2 },
+        { label: "Tengo una idea, pero cambia seguido", score: 1 },
+        { label: "No lo tengo definido", score: 0 }
+      ] },
+      { id: "claridad_2", areaKey: "claridad", areaLabel: "Dirección de tu negocio", type: "scale", text: "Del 1 al 5, ¿qué tan alineado está tu equipo con esa dirección?" },
+      { id: "claridad_3", areaKey: "claridad", areaLabel: "Dirección de tu negocio", type: "multi", text: "¿Qué suele frenar tus decisiones estratégicas? (elige todas las que apliquen)", options: [
+        "Falta de tiempo para analizar",
+        "No tengo datos claros",
+        "Las prioridades cambian constantemente"
+      ] },
+      { id: "operacion_1", areaKey: "operacion", areaLabel: "Organización interna", type: "single", text: "¿Qué tan definidos están los procesos clave de tu negocio?", options: [
+        { label: "Están documentados y se siguen", score: 3 },
+        { label: "Están claros, pero no siempre se cumplen", score: 2 },
+        { label: "Solo algunos están definidos", score: 1 },
+        { label: "Se resuelve sobre la marcha", score: 0 }
+      ] },
+      { id: "operacion_2", areaKey: "operacion", areaLabel: "Organización interna", type: "scale", text: "Del 1 al 5, ¿qué tan autónomo puede operar tu negocio sin ti?" },
+      { id: "operacion_3", areaKey: "operacion", areaLabel: "Organización interna", type: "multi", text: "¿Dónde tienes más cuellos de botella hoy? (elige todas las que apliquen)", options: [
+        "Delegación de tareas",
+        "Seguimiento del equipo",
+        "Comunicación interna"
+      ] },
+      { id: "ventas_1", areaKey: "ventas", areaLabel: "Cómo generas ventas", type: "single", text: "¿Qué tan predecible es tu generación de clientes potenciales?", options: [
+        { label: "Es constante mes a mes", score: 3 },
+        { label: "Es relativamente estable", score: 2 },
+        { label: "Depende de momentos puntuales", score: 1 },
+        { label: "Es totalmente variable", score: 0 }
+      ] },
+      { id: "ventas_2", areaKey: "ventas", areaLabel: "Cómo generas ventas", type: "scale", text: "Del 1 al 5, ¿qué tan claro tienes tu proceso de ventas de inicio a cierre?" },
+      { id: "ventas_3", areaKey: "ventas", areaLabel: "Cómo generas ventas", type: "multi", text: "¿Qué obstáculos afectan más tus ventas? (elige todas las que apliquen)", options: [
+        "Seguimiento inconsistente a prospectos",
+        "Propuesta de valor poco clara",
+        "Poca constancia comercial"
+      ] },
+      { id: "crecimiento_1", areaKey: "crecimiento", areaLabel: "Capacidad de crecer", type: "single", text: "¿Qué tan preparado está tu negocio para duplicar su operación?", options: [
+        { label: "Muy preparado, sin depender de improvisación", score: 3 },
+        { label: "Preparado en buena parte", score: 2 },
+        { label: "Con ajustes importantes por hacer", score: 1 },
+        { label: "No está preparado actualmente", score: 0 }
+      ] },
+      { id: "crecimiento_2", areaKey: "crecimiento", areaLabel: "Capacidad de crecer", type: "scale", text: "Del 1 al 5, ¿qué tanto control tienes de tus resultados y márgenes?" },
+      { id: "crecimiento_3", areaKey: "crecimiento", areaLabel: "Capacidad de crecer", type: "multi", text: "¿Qué te limita más al crecer? (elige todas las que apliquen)", options: [
+        "Dependencia de una sola persona clave",
+        "Falta de capacidad operativa",
+        "Falta de visibilidad financiera"
+      ] }
+    ];
+
+    const app = document.getElementById("app");
+    const progressLabel = document.getElementById("progressLabel");
+    const progressPercent = document.getElementById("progressPercent");
+    const progressBar = document.getElementById("progressBar");
+
+    const state = { step: 0, answers: {}, email: "" };
+
+    /* =========================================
+       Lógica interna de scoring (no visible)
+    ========================================= */
+    const mapScaleToScore = (value) => Math.round(((value - 1) / 4) * 3);
+    const mapMultiToScore = (selectedCount) => Math.max(0, 3 - selectedCount);
+
+    function getQuestionScore(question, answer) {
+      if (answer === undefined || answer === null) return 0;
+      if (question.type === "single") return answer;
+      if (question.type === "scale") return mapScaleToScore(answer);
+      if (question.type === "multi") return mapMultiToScore(answer.length);
+      return 0;
+    }
+
+    function updateProgressUI() {
+      const totalScreens = questions.length + 2; // email + resultado
+      const current = state.step + 1;
+      const percent = Math.round((current / totalScreens) * 100);
+
+      if (state.step < questions.length) {
+        progressLabel.textContent = `Pregunta ${state.step + 1} de ${questions.length}`;
+      } else if (state.step === questions.length) {
+        progressLabel.textContent = "Último paso: confirma tu email";
+      } else {
+        progressLabel.textContent = "Resultado final";
+      }
+
+      progressPercent.textContent = `${percent}%`;
+      progressBar.style.width = `${percent}%`;
+      progressBar.parentElement.setAttribute("aria-valuenow", String(percent));
+    }
+
+    function renderActions() {
+      return `
+        <div class="actions">
+          ${state.step > 0 ? '<button class="btn btn-secondary" id="prevBtn">Anterior</button>' : '<span></span>'}
+          <button class="btn btn-primary" id="nextBtn">Siguiente</button>
+        </div>
+      `;
+    }
+
+    function renderSingleQuestion(question) {
+      const selected = state.answers[question.id];
+      return `
+        <div class="screen">
+          <span class="block-badge">${question.areaLabel}</span>
+          <h2 class="question-title">${question.text}</h2>
+          <div class="options">
+            ${question.options.map((opt) => `
+              <label class="option-card ${selected === opt.score ? "active" : ""}">
+                <input type="radio" name="${question.id}" value="${opt.score}" ${selected === opt.score ? "checked" : ""}>
+                <span>${opt.label}</span>
+              </label>
+            `).join("")}
+          </div>
+          <div class="error" id="error"></div>
+          ${renderActions()}
+        </div>
+      `;
+    }
+
+    function renderScaleQuestion(question) {
+      const selected = state.answers[question.id] ?? 3;
+      return `
+        <div class="screen">
+          <span class="block-badge">${question.areaLabel}</span>
+          <h2 class="question-title">${question.text}</h2>
+          <div class="scale-wrap">
+            <div class="scale-row"><span>1 · Muy bajo</span><span>5 · Muy alto</span></div>
+            <input type="range" id="scaleRange" min="1" max="5" step="1" value="${selected}">
+            <div class="scale-value">Valor actual: <span id="scaleValue">${selected}</span>/5</div>
+          </div>
+          <div class="error" id="error"></div>
+          ${renderActions()}
+        </div>
+      `;
+    }
+
+    function renderMultiQuestion(question) {
+      const selected = state.answers[question.id] ?? [];
+      return `
+        <div class="screen">
+          <span class="block-badge">${question.areaLabel}</span>
+          <h2 class="question-title">${question.text}</h2>
+          <div class="options">
+            ${question.options.map((opt, idx) => `
+              <label class="option-card ${selected.includes(idx) ? "active" : ""}">
+                <input type="checkbox" name="${question.id}" value="${idx}" ${selected.includes(idx) ? "checked" : ""}>
+                <span>${opt}</span>
+              </label>
+            `).join("")}
+          </div>
+          <div class="error" id="error"></div>
+          ${renderActions()}
+        </div>
+      `;
+    }
+
+    function renderEmailStep() {
+      return `
+        <div class="screen">
+          <span class="block-badge">Antes de ver tu resultado</span>
+          <h2 class="question-title">Déjanos tu email para enviarte tus recomendaciones personalizadas.</h2>
+          <div class="email-card">
+            <p>Te compartiremos una guía práctica basada en tus respuestas.</p>
+            <input id="emailInput" class="input" type="email" placeholder="tu@email.com" value="${state.email}">
+          </div>
+          <div class="error" id="error"></div>
+          <div class="actions">
+            <button class="btn btn-secondary" id="prevBtn">Anterior</button>
+            <button class="btn btn-primary" id="showResultBtn">Ver resultado</button>
+          </div>
+        </div>
+      `;
+    }
+
+    function getAreaScores() {
+      const scores = { claridad: 0, operacion: 0, ventas: 0, crecimiento: 0 };
+      questions.forEach((q) => { scores[q.areaKey] += getQuestionScore(q, state.answers[q.id]); });
+      return scores;
+    }
+
+    function getClassification(total) {
+      if (total <= 12) {
+        return {
+          label: "Tu negocio está operando de forma reactiva",
+          message: "Hoy tu negocio depende más de tu esfuerzo que de un sistema."
+        };
+      }
+      if (total <= 24) {
+        return {
+          label: "Tu negocio está en proceso de estructuración",
+          message: "Tu negocio ya muestra avances, ahora toca ordenar y consolidar para crecer con menos desgaste."
+        };
+      }
+      return {
+        label: "Tu negocio tiene una base sólida para crecer",
+        message: "Tu negocio tiene bases fuertes, ahora el reto es optimizar para escalar con más estabilidad."
+      };
+    }
+
+    function getImprovementRecommendations(scores) {
+      const names = {
+        claridad: "Dirección de tu negocio",
+        operacion: "Organización interna",
+        ventas: "Cómo generas ventas",
+        crecimiento: "Capacidad de crecer"
+      };
+      return Object.entries(scores).sort((a, b) => a[1] - b[1]).slice(0, 3).map(([k]) => names[k]);
+    }
+
+    function renderResult() {
+      const scores = getAreaScores();
+      const total = Object.values(scores).reduce((a, b) => a + b, 0);
+      const classification = getClassification(total);
+      const improvements = getImprovementRecommendations(scores);
+
+      const resultPayload = {
+        email: state.email,
+        answers: state.answers,
+        areaScores: scores,
+        totalScore: total,
+        maxPerArea: 9,
+        maxTotal: 36,
+        classification: classification.label,
+        recommendations: improvements
+      };
+      console.log("Resultado Método ACAE™", resultPayload);
+
+      const labels = {
+        claridad: "Dirección de tu negocio",
+        operacion: "Organización interna",
+        ventas: "Cómo generas ventas",
+        crecimiento: "Capacidad de crecer"
+      };
+
+      return `
+        <div class="screen">
+          <span class="block-badge">Diagnóstico completado</span>
+          <h2 class="question-title">Tu resultado está listo</h2>
+          <div class="status">${classification.label}</div>
+          <div class="result-main">${classification.message}</div>
+          <div class="bars">
+            ${Object.entries(scores).map(([key, value]) => {
+              const width = Math.round((value / 9) * 100);
+              return `
+                <div class="bar-item">
+                  <strong>${labels[key]}</strong>
+                  <div class="bar-track"><div class="bar-fill" data-width="${width}"></div></div>
+                  <span>${value}/9</span>
+                </div>
+              `;
+            }).join("")}
+          </div>
+          <h3>Áreas principales a mejorar</h3>
+          <ul class="improvements">${improvements.map((i) => `<li>${i}</li>`).join("")}</ul>
+          <button class="cta" id="ctaButton">Aplicar a una sesión estratégica</button>
+        </div>
+      `;
+    }
+
+    function showError(message) {
+      const el = document.getElementById("error");
+      if (el) el.textContent = message;
+    }
+
+    function clearError() {
+      const el = document.getElementById("error");
+      if (el) el.textContent = "";
+    }
+
+    function bindQuestionEvents(question) {
+      const prevBtn = document.getElementById("prevBtn");
+      const nextBtn = document.getElementById("nextBtn");
+
+      if (prevBtn) {
+        prevBtn.addEventListener("click", () => { state.step -= 1; render(); });
+      }
+
+      if (question.type === "single") {
+        document.querySelectorAll(`input[name="${question.id}"]`).forEach((radio) => {
+          radio.addEventListener("change", (e) => {
+            state.answers[question.id] = Number(e.target.value);
+            clearError();
+            render();
+          });
+        });
+      }
+
+      if (question.type === "scale") {
+        const range = document.getElementById("scaleRange");
+        const scaleValue = document.getElementById("scaleValue");
+        if (state.answers[question.id] === undefined) state.answers[question.id] = Number(range.value);
+        range.addEventListener("input", () => {
+          state.answers[question.id] = Number(range.value);
+          scaleValue.textContent = range.value;
+          clearError();
+        });
+      }
+
+      if (question.type === "multi") {
+        const checks = [...document.querySelectorAll(`input[name="${question.id}"]`)];
+        checks.forEach((check) => {
+          check.addEventListener("change", () => {
+            state.answers[question.id] = checks.filter((x) => x.checked).map((x) => Number(x.value));
+            clearError();
+            render();
+          });
+        });
+      }
+
+      nextBtn.addEventListener("click", () => {
+        const answer = state.answers[question.id];
+        const valid = question.type === "multi" ? (Array.isArray(answer) && answer.length > 0) : answer !== undefined;
+        if (!valid) return showError("Por favor responde esta pregunta para continuar.");
+        state.step += 1;
+        render();
+      });
+    }
+
+    function bindEmailEvents() {
+      const prevBtn = document.getElementById("prevBtn");
+      const showResultBtn = document.getElementById("showResultBtn");
+      const emailInput = document.getElementById("emailInput");
+
+      prevBtn.addEventListener("click", () => { state.step -= 1; render(); });
+      emailInput.addEventListener("input", (e) => { state.email = e.target.value.trim(); clearError(); });
+
+      showResultBtn.addEventListener("click", () => {
+        const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!regex.test(state.email)) return showError("Ingresa un email válido para ver tu resultado.");
+        state.step += 1;
+        render();
+      });
+    }
+
+    function bindResultEvents() {
+      const cta = document.getElementById("ctaButton");
+      if (cta) cta.addEventListener("click", () => alert("¡Gracias! Te contactaremos para agendar tu sesión estratégica."));
+
+      // Animación de barras una vez renderizadas
+      requestAnimationFrame(() => {
+        document.querySelectorAll(".bar-fill").forEach((bar) => {
+          bar.style.width = `${bar.dataset.width}%`;
+        });
+      });
+    }
+
+    function render() {
+      updateProgressUI();
+
+      if (state.step < questions.length) {
+        const q = questions[state.step];
+        if (q.type === "single") app.innerHTML = renderSingleQuestion(q);
+        if (q.type === "scale") app.innerHTML = renderScaleQuestion(q);
+        if (q.type === "multi") app.innerHTML = renderMultiQuestion(q);
+        bindQuestionEvents(q);
+        return;
+      }
+
+      if (state.step === questions.length) {
+        app.innerHTML = renderEmailStep();
+        bindEmailEvents();
+        return;
+      }
+
+      app.innerHTML = renderResult();
+      bindResultEvents();
+    }
+
+    // Inicio del wizard
+    render();
+  </script>
 </body>
 </html>
