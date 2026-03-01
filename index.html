@@ -3,248 +3,111 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Biem | Diagnóstico Estratégico Evolutivo</title>
+    <title>Diagnóstico Estratégico de Crecimiento</title>
 
-    <!-- TailwindCSS para construir una interfaz responsive y consistente -->
+    <!-- TailwindCSS para layout responsive y sistema visual consistente -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
       tailwind.config = {
         theme: {
           extend: {
             colors: {
-              biem: '#FF6B00'
+              brand: '#FF6B00'
             }
           }
         }
       };
     </script>
 
-    <!-- Estilos personalizados para animaciones y componentes del formulario -->
+    <!-- Estilos complementarios para detalles visuales y animaciones -->
     <link rel="stylesheet" href="styles.css" />
   </head>
   <body class="bg-white text-slate-900 antialiased">
     <main class="mx-auto w-full max-w-5xl px-5 py-10 sm:px-8 sm:py-14">
-      <!-- Hero principal: comunica evolución de servicio para clientes actuales -->
+      <!-- HERO SECTION -->
       <section class="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm sm:p-10">
-        <p class="inline-flex rounded-full bg-orange-50 px-3 py-1 text-xs font-semibold tracking-wide text-biem">
-          BIEM CONSULTORÍA ESTRATÉGICA
+        <h1 class="text-3xl font-bold leading-tight sm:text-5xl">Diagnóstico Estratégico de Crecimiento</h1>
+        <p class="mt-4 max-w-4xl text-base leading-relaxed text-slate-700 sm:text-lg">
+          Antes de hablar de contenido, publicidad o ventas, necesitamos entender cómo funciona tu negocio por dentro. Este diagnóstico nos permitirá identificar brechas y oportunidades reales de crecimiento.
         </p>
-        <h1 class="mt-4 text-3xl font-bold leading-tight sm:text-5xl">
-          Si ya trabajas con nosotros, este diagnóstico nos permitirá llevar tu negocio al siguiente nivel.
-        </h1>
-        <p class="mt-4 max-w-3xl text-base leading-relaxed text-slate-700 sm:text-lg">
-          Hoy no solo gestionamos redes. Analizamos, detectamos brechas y estructuramos sistemas de marketing y ventas para escalar tu negocio.
-        </p>
-        <p class="mt-4 max-w-3xl text-sm leading-relaxed text-slate-600 sm:text-base">
-          Este formulario nos ayudará a entender cómo vive hoy tu operación (emocional y operativamente) para diseñar una estrategia basada en resultados reales.
-        </p>
+        <p class="mt-3 text-sm font-medium text-slate-500">Duración estimada: 5–7 minutos.</p>
+
         <button
           id="startBtn"
           type="button"
-          class="mt-8 inline-flex w-full items-center justify-center rounded-xl bg-biem px-6 py-4 text-base font-semibold text-white shadow-md transition hover:bg-orange-600 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-orange-200 sm:w-auto"
+          class="mt-8 inline-flex w-full items-center justify-center rounded-xl bg-brand px-6 py-4 text-base font-semibold text-white shadow-md transition hover:bg-orange-600 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-orange-200 sm:w-auto"
         >
-          Comenzar Diagnóstico Estratégico
+          Comenzar Diagnóstico
         </button>
       </section>
 
-      <!-- Sección del formulario: aparece mediante animación suave -->
+      <!-- FORMULARIO -->
       <section id="formSection" class="mt-10 hidden-section" aria-hidden="true">
-        <form id="diagnosticForm" novalidate class="space-y-8">
+        <form id="diagnosticForm" novalidate class="space-y-10">
           <!-- BLOQUE 1 -->
           <article class="block-card">
-            <h2 class="block-title">Bloque 1 – Visión de Negocio</h2>
-            <p class="section-intro">En esta sección queremos entender hacia dónde quieres llevar tu negocio y qué tan clara está la meta de crecimiento.</p>
-            <div class="grid gap-4 sm:grid-cols-2">
-              <label class="field-group">Meta en 12 meses*
-                <input required name="meta12" type="text" class="field-input" placeholder="Ej. Duplicar la facturación" />
+            <h2 class="block-title">Bloque 1 – Contexto del Negocio</h2>
+            <p class="section-intro">Primero queremos entender dónde estás hoy.</p>
+            <div class="grid gap-5 sm:grid-cols-2">
+              <label class="field-group">¿En qué etapa está tu negocio?*
+                <select required name="etapaNegocio" class="field-input">
+                  <option value="">Selecciona una opción</option>
+                  <option>Iniciando</option>
+                  <option>Estable pero sin crecimiento claro</option>
+                  <option>Creciendo pero desordenado</option>
+                  <option>Facturando bien pero quiero escalar</option>
+                  <option>Listo para profesionalizar mi estructura</option>
+                </select>
               </label>
-              <label class="field-group">Facturación mensual deseada*
-                <input required name="facturacionDeseada" type="number" min="0" class="field-input" placeholder="Ej. 30000" />
+              <label class="field-group">¿Cuánto tiempo llevas operando?*
+                <input required name="tiempoOperando" type="text" class="field-input" placeholder="Ej. 2 años" />
               </label>
-              <label class="field-group">Ticket promedio actual*
-                <input required name="ticketPromedio" type="number" min="0" class="field-input" placeholder="Ej. 1200" />
+              <label class="field-group">¿Cuál es tu principal fuente de ingresos?*
+                <input required name="fuenteIngresos" type="text" class="field-input" placeholder="Ej. Servicios 1:1" />
               </label>
-              <label class="field-group">Número de clientes necesarios por mes*
-                <input required name="clientesMes" type="number" min="0" class="field-input" placeholder="Ej. 25" />
+              <label class="field-group">¿Cuál es tu ticket promedio?*
+                <input required name="ticketPromedio" type="number" min="0" class="field-input" placeholder="Ej. 750" />
               </label>
             </div>
           </article>
 
           <!-- BLOQUE 2 -->
           <article class="block-card">
-            <h2 class="block-title">Bloque 2 – Objetivo Principal y Urgencia</h2>
-            <p class="section-intro">Aquí buscamos claridad sobre tu foco inmediato y el nivel de urgencia real para accionar.</p>
-            <div class="grid gap-4 sm:grid-cols-2">
-              <label class="field-group">Objetivo principal*
-                <select required name="objetivoPrincipal" class="field-input">
-                  <option value="">Selecciona una opción</option>
-                  <option>Generar leads</option>
-                  <option>Cerrar más ventas</option>
-                  <option>Subir precios</option>
-                  <option>Posicionamiento</option>
-                  <option>Lanzamiento</option>
-                </select>
+            <h2 class="block-title">Bloque 2 – Meta y Ambición</h2>
+            <p class="section-intro">Ahora hablemos hacia dónde quieres ir.</p>
+            <div class="grid gap-5 sm:grid-cols-2">
+              <label class="field-group sm:col-span-2">¿Qué quieres lograr en los próximos 6–12 meses?*
+                <textarea required name="meta612" class="field-input min-h-28" placeholder="Describe tu objetivo principal"></textarea>
               </label>
-              <label class="field-group">Urgencia para lograrlo*
-                <select required name="urgencia" class="field-input">
-                  <option value="">Selecciona</option>
-                  <option value="alta">Alta (ahora)</option>
-                  <option value="media">Media (próximos meses)</option>
-                  <option value="baja">Baja (sin urgencia)</option>
-                </select>
+              <label class="field-group">¿Qué te está impidiendo lograrlo hoy?*
+                <textarea required name="frenoActual" class="field-input min-h-28" placeholder="Principales bloqueos"></textarea>
               </label>
-              <label class="field-group sm:col-span-2">¿Qué resultado esperas en 90 días?*
-                <textarea required name="resultado90" class="field-input min-h-28" placeholder="Describe el resultado concreto que esperas lograr"></textarea>
+              <label class="field-group">Si nada cambia en los próximos 6 meses, ¿qué pasaría en tu negocio?*
+                <textarea required name="escenarioSinCambios" class="field-input min-h-28" placeholder="Describe el impacto"></textarea>
               </label>
             </div>
           </article>
 
           <!-- BLOQUE 3 -->
           <article class="block-card">
-            <h2 class="block-title">Bloque 3 – Relación Actual con Biem</h2>
-            <p class="section-intro">En esta sección queremos medir el valor percibido actual y descubrir oportunidades de expansión juntos.</p>
-            <div class="grid gap-4 sm:grid-cols-2">
-              <label class="field-group sm:col-span-2">¿Qué valoras más de trabajar con nosotros?*
-                <textarea required name="valorBiem" class="field-input min-h-24" placeholder="Lo que más te aporta hoy Biem"></textarea>
-              </label>
-              <label class="field-group sm:col-span-2">¿Dónde sientes que aún podemos llevar tu negocio a otro nivel?*
-                <textarea required name="elevarConBiem" class="field-input min-h-24" placeholder="Áreas con mayor potencial"></textarea>
-              </label>
-              <label class="field-group sm:col-span-2">¿Qué meta importante aún no hemos trabajado juntos?*
-                <textarea required name="metaNoTrabajada" class="field-input min-h-24" placeholder="Meta pendiente con mayor impacto"></textarea>
-              </label>
-            </div>
-          </article>
-
-          <!-- BLOQUE 4 -->
-          <article class="block-card">
-            <h2 class="block-title">Bloque 4 – Resultados Actuales con Biem</h2>
-            <p class="section-intro">Queremos entender qué mejoras ya se perciben y dónde existen brechas estratégicas por cerrar.</p>
-            <div class="grid gap-4 sm:grid-cols-2">
-              <label class="field-group sm:col-span-2">Desde que trabajas con nosotros, ¿qué has notado que ha mejorado?*
-                <textarea required name="mejorasConBiem" class="field-input min-h-24" placeholder="Percepción de valor actual"></textarea>
-              </label>
-              <label class="field-group sm:col-span-2">¿Qué sientes que todavía no estamos explotando al máximo?*
-                <textarea required name="noExplotado" class="field-input min-h-24" placeholder="Oportunidades de mejora"></textarea>
-              </label>
-              <label class="field-group">Del 1 al 10, ¿qué tan alineado sientes tu marketing con tus metas reales?*
-                <input required name="alineacionMarketing" type="number" min="1" max="10" class="field-input" placeholder="Del 1 al 10" />
-              </label>
-            </div>
-          </article>
-
-          <!-- BLOQUE 5 -->
-          <article class="block-card">
-            <h2 class="block-title">Bloque 5 – Modelo de Venta Actual</h2>
-            <p class="section-intro">En esta sección queremos entender cómo funciona hoy tu proceso de venta por dentro y cómo lo vive tu equipo.</p>
-            <div class="grid gap-4 sm:grid-cols-2">
+            <h2 class="block-title">Bloque 3 – Marketing Actual</h2>
+            <p class="section-intro">Queremos entender cómo estás atrayendo oportunidades hoy.</p>
+            <div class="grid gap-5 sm:grid-cols-2">
               <label class="field-group">¿Cómo llegan hoy tus clientes?*
-                <textarea required name="llegadaClientes" class="field-input min-h-24" placeholder="Canales actuales"></textarea>
-              </label>
-              <label class="field-group">Cuando alguien te escribe interesado, ¿qué sucede exactamente paso a paso?*
-                <textarea required name="pasoAPasoVenta" class="field-input min-h-24" placeholder="Describe el flujo real desde primer contacto hasta cierre"></textarea>
-              </label>
-              <label class="field-group">¿Quién cierra la venta actualmente?*
-                <input required name="quienCierra" type="text" class="field-input" placeholder="Ej. Fundador / equipo comercial" />
-              </label>
-              <label class="field-group">¿Qué objeciones aparecen con más frecuencia al momento de comprar?*
-                <textarea required name="objeciones" class="field-input min-h-24" placeholder="Principales frenos de compra"></textarea>
-              </label>
-              <label class="field-group">Tiempo promedio de cierre*
-                <input required name="tiempoCierre" type="text" class="field-input" placeholder="Ej. 7 días" />
-              </label>
-            </div>
-          </article>
-
-          <!-- BLOQUE 6 -->
-          <article class="block-card">
-            <h2 class="block-title">Bloque 6 – Cliente Ideal y Mensaje</h2>
-            <p class="section-intro">Queremos alinear la comunicación con el tipo de cliente que sí quieres atraer y convertir.</p>
-            <div class="grid gap-4 sm:grid-cols-2">
-              <label class="field-group">Perfil de cliente ideal*
-                <textarea required name="clienteIdeal" class="field-input min-h-24" placeholder="Características principales"></textarea>
-              </label>
-              <label class="field-group">¿Qué lo frena para comprar?*
-                <textarea required name="frenoCompra" class="field-input min-h-24" placeholder="Barreras frecuentes"></textarea>
-              </label>
-              <label class="field-group">¿Qué lo hace decir sí?*
-                <textarea required name="gatilloSi" class="field-input min-h-24" placeholder="Motivadores de decisión"></textarea>
-              </label>
-              <label class="field-group">Tipo de cliente que NO quieres atraer*
-                <textarea required name="clienteNoDeseado" class="field-input min-h-24" placeholder="Describe a quién prefieres evitar"></textarea>
-              </label>
-            </div>
-          </article>
-
-          <!-- BLOQUE 7 -->
-          <article class="block-card">
-            <h2 class="block-title">Bloque 7 – Métricas Actuales</h2>
-            <p class="section-intro">Aquí evaluamos indicadores clave para ver si tus números acompañan tus metas de crecimiento.</p>
-            <div class="grid gap-4 sm:grid-cols-2">
-              <label class="field-group">Seguidores actuales*
-                <input required name="seguidores" type="number" min="0" class="field-input" placeholder="Ej. 14500" />
-              </label>
-              <label class="field-group">Leads promedio mensual*
-                <input required name="leadsMensuales" type="number" min="0" class="field-input" placeholder="Ej. 120" />
-              </label>
-              <label class="field-group">Ventas por redes*
-                <input required name="ventasRedes" type="number" min="0" class="field-input" placeholder="Ej. 15" />
-              </label>
-              <label class="field-group">Inversión mensual en publicidad*
-                <input required name="inversionAds" type="number" min="0" class="field-input" placeholder="Ej. 1000" />
-              </label>
-            </div>
-          </article>
-
-          <!-- BLOQUE 8 -->
-          <article class="block-card">
-            <h2 class="block-title">Bloque 8 – Operación Interna</h2>
-            <p class="section-intro">En esta sección queremos entender cómo funciona hoy tu negocio por dentro para detectar cuellos operativos.</p>
-            <div class="grid gap-4 sm:grid-cols-2">
-              <label class="field-group">¿Cómo gestionas hoy tus leads?*
-                <select required name="gestionLeads" class="field-input">
-                  <option value="">Selecciona</option>
-                  <option>Los respondo manualmente</option>
-                  <option>Tengo equipo de ventas</option>
-                  <option>No tengo seguimiento estructurado</option>
-                  <option>Uso CRM</option>
+                <select required name="llegadaClientes" class="field-input">
+                  <option value="">Selecciona una opción</option>
+                  <option>Redes sociales</option>
+                  <option>Recomendaciones</option>
+                  <option>Publicidad paga</option>
+                  <option>WhatsApp directo</option>
+                  <option>Página web</option>
+                  <option>Otro</option>
                 </select>
               </label>
-              <label class="field-group">¿Cómo mides resultados?*
-                <select required name="medicionResultados" class="field-input">
+              <label class="field-group">¿Inviertes en publicidad actualmente?*
+                <select required name="inviertePublicidad" class="field-input">
                   <option value="">Selecciona</option>
-                  <option>No los mido</option>
-                  <option>Veo métricas básicas</option>
-                  <option>Analizo conversiones</option>
-                  <option>Tengo reportes claros</option>
-                </select>
-              </label>
-              <label class="field-group sm:col-span-2">¿Qué está pasando hoy que te hace sentir que tu marketing no está funcionando como debería?*
-                <textarea required name="friccionMarketing" class="field-input min-h-24" placeholder="Describe la frustración principal y su impacto en el negocio"></textarea>
-              </label>
-            </div>
-          </article>
-
-          <!-- BLOQUE 9 -->
-          <article class="block-card">
-            <h2 class="block-title">Bloque 9 – Diagnóstico de Embudo</h2>
-            <p class="section-intro">Queremos identificar si tienes un sistema claro de conversión o si hay fuga de oportunidades en el recorrido del cliente.</p>
-            <div class="grid gap-4 sm:grid-cols-2">
-              <label class="field-group">¿Cómo conviertes hoy a tus seguidores en clientes?*
-                <select required name="conversionSeguidores" class="field-input">
-                  <option value="">Selecciona</option>
-                  <option>Les escriben por DM</option>
-                  <option>Me escriben por WhatsApp</option>
-                  <option>Solo publico contenido</option>
-                  <option>Tengo página web pero no sé si convierte</option>
-                  <option>Tengo embudo estructurado</option>
-                </select>
-              </label>
-              <label class="field-group">¿Tienes una ruta clara desde que alguien te descubre hasta que compra?*
-                <select required name="rutaCompra" class="field-input">
-                  <option value="">Selecciona</option>
-                  <option>Sí, totalmente</option>
-                  <option>Más o menos</option>
+                  <option>Sí</option>
                   <option>No</option>
                 </select>
               </label>
@@ -253,23 +116,34 @@
                   <option value="">Selecciona</option>
                   <option>Sí</option>
                   <option>No</option>
-                  <option>Nunca la he medido</option>
+                  <option>No la mido</option>
+                </select>
+              </label>
+              <label class="field-group">¿Tienes una ruta clara desde que alguien te descubre hasta que compra?*
+                <select required name="rutaClara" class="field-input">
+                  <option value="">Selecciona</option>
+                  <option>Sí</option>
+                  <option>No</option>
+                  <option>No estoy seguro</option>
                 </select>
               </label>
             </div>
           </article>
 
-          <!-- BLOQUE 10 -->
+          <!-- BLOQUE 4 -->
           <article class="block-card">
-            <h2 class="block-title">Bloque 10 – Dirección Comercial</h2>
-            <p class="section-intro">Aquí medimos estructura de seguimiento y cierre para detectar la brecha comercial real.</p>
-            <div class="grid gap-4 sm:grid-cols-2">
-              <label class="field-group">¿Tienes proceso de seguimiento después del primer contacto?*
-                <select required name="seguimientoContacto" class="field-input">
+            <h2 class="block-title">Bloque 4 – Proceso de Venta</h2>
+            <p class="section-intro">Ahora vamos a mirar cómo conviertes oportunidades en ventas.</p>
+            <div class="grid gap-5 sm:grid-cols-2">
+              <label class="field-group">¿Quién cierra la venta actualmente?*
+                <input required name="quienCierra" type="text" class="field-input" placeholder="Ej. Fundador o equipo comercial" />
+              </label>
+              <label class="field-group">¿Tienes proceso de seguimiento estructurado?*
+                <select required name="seguimientoEstructurado" class="field-input">
                   <option value="">Selecciona</option>
-                  <option>Sí, estructurado</option>
-                  <option>A veces</option>
+                  <option>Sí</option>
                   <option>No</option>
+                  <option>A veces</option>
                 </select>
               </label>
               <label class="field-group">¿Cuántos leads se pierden por falta de seguimiento?*
@@ -280,26 +154,21 @@
                   <option>Muchos</option>
                 </select>
               </label>
-              <label class="field-group">¿Tu equipo sabe exactamente cómo cerrar una venta?*
-                <select required name="procesoCierreEquipo" class="field-input">
-                  <option value="">Selecciona</option>
-                  <option>Sí</option>
-                  <option>Más o menos</option>
-                  <option>No tengo equipo</option>
-                </select>
+              <label class="field-group">¿Tiempo promedio de cierre?*
+                <input required name="tiempoCierre" type="text" class="field-input" placeholder="Ej. 7 días" />
               </label>
             </div>
           </article>
 
-          <!-- BLOQUE 11 -->
+          <!-- BLOQUE 5 -->
           <article class="block-card">
-            <h2 class="block-title">Bloque 11 – Automatización</h2>
-            <p class="section-intro">Buscamos evidenciar cuánto tiempo y capacidad se pierde por tareas repetitivas que podrían automatizarse.</p>
-            <div class="grid gap-4 sm:grid-cols-2">
+            <h2 class="block-title">Bloque 5 – Operación y Automatización</h2>
+            <p class="section-intro">Esta parte es clave para poder escalar.</p>
+            <div class="grid gap-5 sm:grid-cols-2">
               <label class="field-group">¿Cómo gestionas tus contactos?*
                 <select required name="gestionContactos" class="field-input">
                   <option value="">Selecciona</option>
-                  <option>Manualmente</option>
+                  <option>Manual</option>
                   <option>Excel</option>
                   <option>CRM</option>
                   <option>No llevo control</option>
@@ -313,95 +182,75 @@
                   <option>No sé qué es eso</option>
                 </select>
               </label>
-              <label class="field-group">¿Cuánto tiempo pierdes respondiendo lo mismo todos los días?*
-                <select required name="tiempoRespuestaRepetida" class="field-input">
-                  <option value="">Selecciona</option>
-                  <option>Poco</option>
-                  <option>Mucho</option>
-                  <option>Demasiado</option>
-                </select>
+              <label class="field-group sm:col-span-2">¿Cuánto tiempo pierdes en tareas repetitivas cada semana?*
+                <input required name="tiempoTareasRepetitivas" type="text" class="field-input" placeholder="Ej. 8 horas" />
               </label>
             </div>
           </article>
 
-          <!-- BLOQUE 12 -->
+          <!-- BLOQUE 6 -->
           <article class="block-card">
-            <h2 class="block-title">Bloque 12 – Ambición Real y Mentalidad</h2>
-            <p class="section-intro">En esta sección medimos la capacidad de sostener crecimiento y la urgencia estratégica de actuar hoy.</p>
-            <div class="grid gap-4 sm:grid-cols-2">
-              <label class="field-group sm:col-span-2">Si tu negocio duplicara sus ventas en 6 meses, ¿tendrías estructura para sostenerlo?*
-                <select required name="estructuraEscalar" class="field-input sm:max-w-lg">
-                  <option value="">Selecciona</option>
-                  <option>Sí</option>
-                  <option>No estoy seguro</option>
-                  <option>No</option>
-                </select>
+            <h2 class="block-title">Bloque 6 – Cliente Ideal</h2>
+            <p class="section-intro">Para crecer necesitamos claridad de a quién estás atrayendo.</p>
+            <div class="grid gap-5 sm:grid-cols-2">
+              <label class="field-group">Describe tu cliente ideal.*
+                <textarea required name="clienteIdeal" class="field-input min-h-24" placeholder="Perfil, contexto y necesidades"></textarea>
               </label>
-              <label class="field-group">¿Qué crees que te ha impedido crecer más rápido?*
-                <textarea required name="impedimentoCrecimiento" class="field-input min-h-24" placeholder="Barreras internas o externas"></textarea>
+              <label class="field-group">¿Qué lo hace tomar la decisión de compra?*
+                <textarea required name="gatillosCompra" class="field-input min-h-24" placeholder="Qué factores generan confianza y decisión"></textarea>
               </label>
-              <label class="field-group">Si nada cambia en los próximos 6 meses, ¿qué pasaría en tu negocio?*
-                <textarea required name="escenarioSinCambios" class="field-input min-h-24" placeholder="Describe el impacto si todo sigue igual"></textarea>
+              <label class="field-group">¿Qué objeciones aparecen con más frecuencia?*
+                <textarea required name="objeciones" class="field-input min-h-24" placeholder="Barreras más comunes"></textarea>
+              </label>
+              <label class="field-group">¿Qué tipo de cliente NO quieres atraer?*
+                <textarea required name="clienteNoDeseado" class="field-input min-h-24" placeholder="Describe perfiles que no te convienen"></textarea>
               </label>
             </div>
           </article>
 
-          <!-- BLOQUE 13 -->
+          <!-- BLOQUE 7 -->
           <article class="block-card">
-            <h2 class="block-title">Bloque 13 – Compromiso</h2>
-            <p class="section-intro">Queremos validar nivel de ejecución para convertir estrategia en crecimiento real.</p>
-            <div class="grid gap-4 sm:grid-cols-2">
-              <label class="field-group">¿Estás dispuesto a grabar contenido?*
-                <select required name="grabarContenido" class="field-input">
+            <h2 class="block-title">Bloque 7 – Mentalidad y Compromiso</h2>
+            <p class="section-intro">El crecimiento requiere estructura y decisiones.</p>
+            <div class="grid gap-5 sm:grid-cols-2">
+              <label class="field-group sm:col-span-2">Nivel de compromiso (1–10)*
+                <input required name="nivelCompromiso" type="range" min="1" max="10" value="5" class="range-input" />
+                <span id="commitmentValue" class="range-value">5</span>
+              </label>
+              <label class="field-group">¿Estás dispuesto a hacer cambios si detectamos brechas importantes?*
+                <select required name="dispuestoCambios" class="field-input">
                   <option value="">Selecciona</option>
                   <option>Sí</option>
+                  <option>Depende</option>
                   <option>No</option>
                 </select>
               </label>
-              <label class="field-group">¿Estás dispuesto a invertir en publicidad?*
-                <select required name="invertirAds" class="field-input">
+              <label class="field-group">¿Estás dispuesto a invertir en estructura si es necesario?*
+                <select required name="invertirEstructura" class="field-input">
                   <option value="">Selecciona</option>
                   <option>Sí</option>
+                  <option>Depende</option>
                   <option>No</option>
                 </select>
-              </label>
-              <label class="field-group sm:col-span-2">Nivel de compromiso (1-10)*
-                <input required name="nivelCompromiso" type="number" min="1" max="10" class="field-input" placeholder="Del 1 al 10" />
               </label>
             </div>
           </article>
-
-          <!-- BLOQUE 14 -->
-          <article class="block-card">
-            <h2 class="block-title">🔎 Oportunidades que aún no hemos trabajado</h2>
-            <p class="section-intro">Este espacio abierto nos ayuda a detectar iniciativas de alto impacto que todavía no estamos ejecutando juntos.</p>
-            <label class="field-group">¿Qué crees que podríamos estar haciendo diferente para acelerar tu crecimiento?*
-              <textarea required name="oportunidadesNoTrabajadas" class="field-input min-h-32" placeholder="Comparte ideas, fricciones o nuevas oportunidades"></textarea>
-            </label>
-          </article>
-
-          <!-- Campos ocultos para payload interno y resumen agrupado -->
-          <input type="hidden" id="internalScores" name="internalScores" />
-          <input type="hidden" id="groupedPayload" name="groupedPayload" />
 
           <button
             type="submit"
-            class="w-full rounded-xl bg-biem px-6 py-4 text-lg font-bold text-white shadow-lg transition hover:bg-orange-600 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-orange-200"
+            class="w-full rounded-xl bg-brand px-6 py-4 text-lg font-bold text-white shadow-lg transition hover:bg-orange-600 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-orange-200"
           >
             Enviar Diagnóstico
           </button>
         </form>
 
-        <div id="successMessage" class="success-message" role="status" aria-live="polite">
-          <p>
-            Gracias por dar este paso estratégico. Nuestro equipo analizará tu información y te contactaremos para estructurar tu plan de crecimiento.
-          </p>
-          <p id="diagnosticInsight" class="mt-3"></p>
-        </div>
+        <p id="successMessage" class="success-message" role="status" aria-live="polite">
+          Gracias por dar este paso estratégico. Analizaremos tu información para identificar oportunidades reales de crecimiento y estructurar una propuesta alineada a tu negocio.
+        </p>
       </section>
     </main>
 
-    <!-- Lógica JavaScript separada para validación y clasificación interna -->
+    <!-- Lógica JavaScript separada para interacción y validación -->
     <script src="script.js"></script>
   </body>
 </html>
