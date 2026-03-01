@@ -1,169 +1,175 @@
 
-import React from 'react';
+import React, { useState } from 'react';
 import { DiagnosticResult } from '../types';
-import { PieChart, Pie, Cell, ResponsiveContainer } from 'recharts';
-import { CheckCircle2, XCircle, Zap, Info, ChevronRight, RefreshCcw, ExternalLink, Calendar, MessageSquareQuote } from 'lucide-react';
+import { Zap, RefreshCcw, ShieldCheck, Mail, Download, ArrowRight, MessageSquareQuote, AlertTriangle } from 'lucide-react';
 
 interface DashboardProps {
   result: DiagnosticResult;
-  onReset: () => void;
 }
 
-const Dashboard: React.FC<DashboardProps> = ({ result, onReset }) => {
+const Dashboard: React.FC<DashboardProps> = ({ result }) => {
+  const [showAdmin, setShowAdmin] = useState(false);
+
+  if (result.isSuperficial) {
+    return (
+      <div className="max-w-2xl mx-auto text-center space-y-8 py-12 animate-in fade-in duration-700">
+        <div className="bg-red-50 border border-red-100 p-8 rounded-[2rem] shadow-sm">
+          <AlertTriangle className="w-12 h-12 text-red-500 mx-auto mb-6" />
+          <p className="text-xl text-biem-dark font-medium leading-relaxed">
+            {result.superficialMessage}
+          </p>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="space-y-10 animate-in slide-in-from-bottom-10 duration-700">
-      {/* Intro Coach Message */}
-      <div className="bg-biem-orange/5 border border-biem-orange/20 rounded-3xl p-8 md:p-10 relative overflow-hidden">
-        <div className="absolute -top-10 -left-10 opacity-10">
-          <MessageSquareQuote size={120} className="text-biem-orange" />
+      
+      {/* Status Bar */}
+      <div className="bg-biem-orange/10 border border-biem-orange/20 rounded-2xl p-4 flex items-center justify-between gap-4">
+        <div className="flex items-center gap-3">
+          <div className="bg-biem-orange p-2 rounded-lg">
+            <Zap className="w-4 h-4 text-white" />
+          </div>
+          <span className="text-sm font-bold text-biem-orange">Diagnóstico Estratégico Generado</span>
         </div>
-        <div className="relative z-10">
-          <h2 className="text-2xl font-bold mb-4 text-white flex items-center gap-3">
-            <span className="bg-biem-orange w-10 h-10 rounded-full flex items-center justify-center text-white">
-              <Zap size={20} />
-            </span>
-            Análisis de tu Coach de Crecimiento
-          </h2>
-          <p className="text-lg md:text-xl text-gray-200 font-medium italic leading-relaxed">
-            "{result.coachToneMessage}"
-          </p>
+        <div className="hidden sm:flex items-center gap-2 text-[10px] text-gray-500 font-bold uppercase tracking-widest">
+          <ShieldCheck className="w-3 h-3" /> Análisis de Criterio Real
         </div>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-        <div className="bg-biem-card border border-white/5 rounded-3xl p-8 flex flex-col items-center justify-center text-center orange-glow">
-          <h3 className="text-gray-500 text-xs font-bold uppercase tracking-widest mb-6">Nivel de Madurez Estratégica</h3>
-          <div className="relative w-56 h-56 mb-6">
-             <ResponsiveContainer width="100%" height="100%">
-               <PieChart>
-                 <Pie
-                   data={[{ value: result.overallScore }, { value: 100 - result.overallScore }]}
-                   cx="50%"
-                   cy="50%"
-                   innerRadius={75}
-                   outerRadius={95}
-                   startAngle={90}
-                   endAngle={450}
-                   paddingAngle={0}
-                   dataKey="value"
-                   stroke="none"
-                 >
-                   <Cell fill="#ff7315" />
-                   <Cell fill="#1a1a1a" />
-                 </Pie>
-               </PieChart>
-             </ResponsiveContainer>
-             <div className="absolute inset-0 flex flex-col items-center justify-center">
-               <span className="text-6xl font-black text-white">{result.overallScore}</span>
-               <span className="text-sm text-biem-orange font-bold">SCORE</span>
-             </div>
-          </div>
-          <div className="bg-biem-orange/10 text-biem-orange px-4 py-1.5 rounded-full text-xs font-bold uppercase tracking-tighter">
-            {result.overallScore > 80 ? 'Potencial de Escalamiento' : result.overallScore > 50 ? 'Fase de Optimización' : 'Necesita Rebase Estratégico'}
-          </div>
-        </div>
-
-        <div className="lg:col-span-2 bg-biem-card border border-white/5 rounded-3xl p-8 md:p-10">
-          <h3 className="text-2xl font-bold mb-6 text-white">Radiografía del Negocio</h3>
-          <p className="text-gray-400 leading-relaxed mb-8 text-lg">
-            {result.summary}
-          </p>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            <div className="space-y-4">
-              <h4 className="text-[10px] font-black text-gray-500 uppercase tracking-widest flex items-center gap-2">
-                <div className="w-1 h-1 bg-emerald-500 rounded-full"></div> Fortalezas Detectadas
-              </h4>
-              {result.strengths.map((s, i) => (
-                <div key={i} className="flex items-start gap-3 text-sm text-gray-200">
-                  <CheckCircle2 className="w-5 h-5 text-emerald-500 flex-shrink-0" /> {s}
-                </div>
-              ))}
-            </div>
-            <div className="space-y-4">
-              <h4 className="text-[10px] font-black text-gray-500 uppercase tracking-widest flex items-center gap-2">
-                <div className="w-1 h-1 bg-biem-orange rounded-full"></div> Puntos de Fricción
-              </h4>
-              {result.weaknesses.map((w, i) => (
-                <div key={i} className="flex items-start gap-3 text-sm text-gray-200">
-                  <XCircle className="w-5 h-5 text-biem-orange flex-shrink-0" /> {w}
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-      </div>
-
-      {/* Areas Detail */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-        {result.categories.map((cat, i) => (
-          <div key={i} className="bg-biem-card border border-white/5 p-6 rounded-2xl hover:border-biem-orange/30 transition-all">
-            <div className="flex justify-between items-center mb-4">
-              <span className="text-sm font-bold text-gray-300 uppercase tracking-tight">{cat.name}</span>
-              <span className="text-lg font-bold text-biem-orange">{cat.score}%</span>
-            </div>
-            <div className="w-full h-1 bg-white/5 rounded-full mb-4">
-              <div className="h-full bg-biem-orange rounded-full" style={{ width: `${cat.score}%` }}></div>
-            </div>
-            <p className="text-xs text-gray-500 leading-relaxed">
-              {cat.observation}
-            </p>
-          </div>
-        ))}
-      </div>
-
-      {/* Main CTA Section */}
-      <div className="bg-white rounded-[2.5rem] p-8 md:p-12 text-black grid grid-cols-1 lg:grid-cols-2 gap-10 items-center overflow-hidden relative">
-        <div className="absolute right-0 bottom-0 w-64 h-64 bg-biem-orange/10 rounded-full blur-3xl -mb-32 -mr-32"></div>
-        <div>
-          <h3 className="text-3xl md:text-4xl font-black leading-tight mb-6">
-            ¿Listo para llevar tu visión al siguiente nivel?
-          </h3>
-          <p className="text-lg text-gray-600 mb-8 font-medium">
-            Acabamos de identificar tu hoja de ruta. El siguiente paso es una <span className="text-black font-bold">Sesión Estratégica 1-a-1</span> con nuestro equipo para aterrizar estos resultados en un plan de ejecución real.
-          </p>
-          <div className="space-y-5">
-            {result.topPriorities.map((p, i) => (
-              <div key={i} className="flex gap-4">
-                <div className="flex-shrink-0 w-8 h-8 rounded-full bg-black text-white flex items-center justify-center font-bold text-sm">
-                  {i + 1}
-                </div>
-                <div>
-                  <h4 className="font-bold text-black">{p.title}</h4>
-                  <p className="text-sm text-gray-500">{p.action}</p>
-                </div>
-              </div>
-            ))}
-          </div>
+      {/* Main Diagnostic Card */}
+      <div className="bg-white border border-biem-light rounded-[2.5rem] p-8 md:p-12 relative overflow-hidden shadow-xl orange-glow">
+        <div className="absolute -top-10 -left-10 opacity-5">
+          <MessageSquareQuote size={200} className="text-biem-purple" />
         </div>
         
-        <div className="bg-biem-dark rounded-3xl p-8 text-white shadow-2xl relative">
-          <div className="absolute -top-4 -right-4 bg-biem-orange text-white px-4 py-2 rounded-xl text-xs font-bold uppercase animate-pulse">
-            Cupos Limitados
+        <div className="relative z-10 space-y-12">
+          
+          {/* Primeras Señales Detectadas */}
+          <section className="animate-in fade-in slide-in-from-left-4 duration-500">
+            <h3 className="text-2xl md:text-3xl font-black text-biem-purple mb-6 flex items-center gap-3">
+              <span className="text-biem-orange">📡</span> Primeras Señales Detectadas en Tu Negocio
+            </h3>
+            <div className="space-y-6">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                {result.preliminarySignals.observations.map((obs, idx) => (
+                  <div key={idx} className="bg-white border border-biem-light p-6 rounded-3xl shadow-sm flex gap-4">
+                    <div className="w-2 h-2 bg-biem-orange rounded-full mt-2 flex-shrink-0" />
+                    <p className="text-biem-dark font-medium">{obs}</p>
+                  </div>
+                ))}
+              </div>
+              <div className="bg-biem-orange/5 border border-biem-orange/20 p-6 rounded-3xl shadow-sm">
+                <h4 className="text-biem-orange font-black text-xs uppercase tracking-widest mb-2">Posible Conflicto Estructural</h4>
+                <p className="text-biem-dark font-bold text-lg">
+                  {result.preliminarySignals.possibleStructuralConflict}
+                </p>
+              </div>
+            </div>
+          </section>
+
+          {/* Análisis Estratégico en Desarrollo */}
+          <section className="animate-in fade-in slide-in-from-left-4 duration-500 delay-200">
+            <div className="bg-biem-purple text-white p-8 md:p-12 rounded-[2.5rem] shadow-xl relative overflow-hidden">
+              <div className="absolute top-0 right-0 p-4 opacity-10">
+                <RefreshCcw size={150} className="animate-spin" style={{ animationDuration: '10s' }} />
+              </div>
+              <h3 className="text-2xl md:text-3xl font-black mb-6 flex items-center gap-3">
+                <span className="text-biem-orange">⚙️</span> Análisis Estratégico en Desarrollo
+              </h3>
+              <div className="space-y-6 relative z-10">
+                <p className="text-lg md:text-xl font-medium leading-relaxed opacity-90">
+                  Lo que acabas de ver es solo una primera lectura estructural. Durante las próximas 24 horas tu negocio será analizado bajo el Sistema ACAE para identificar prioridades reales, no superficiales.
+                </p>
+                
+                <div className="bg-white/10 p-6 rounded-3xl border border-white/10">
+                  <h4 className="text-biem-orange font-black text-xs uppercase tracking-widest mb-4">Recibirás en tu correo:</h4>
+                  <ul className="space-y-3">
+                    <li className="flex items-center gap-3 font-bold">
+                      <div className="w-1.5 h-1.5 bg-biem-orange rounded-full" /> Diagnóstico estructural completo
+                    </li>
+                    <li className="flex items-center gap-3 font-bold">
+                      <div className="w-1.5 h-1.5 bg-biem-orange rounded-full" /> Identificación clara de tu conflicto principal
+                    </li>
+                    <li className="flex items-center gap-3 font-bold">
+                      <div className="w-1.5 h-1.5 bg-biem-orange rounded-full" /> Ruta de acción inicial personalizada
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          {/* Admin Notification Simulation */}
+          <div className="bg-emerald-500/10 border border-emerald-500/20 rounded-2xl p-4 flex items-center gap-3">
+            <ShieldCheck className="w-5 h-5 text-emerald-400" />
+            <p className="text-xs font-bold text-emerald-400 uppercase tracking-widest">
+              Reporte interno enviado automáticamente al administrador.
+            </p>
           </div>
-          <h4 className="text-2xl font-bold mb-4">Agendar Consultoría</h4>
-          <p className="text-gray-400 text-sm mb-8">
-            Revisaremos tu score de <span className="text-biem-orange font-bold">{result.overallScore}/100</span> y definiremos los KPIs para escalar.
-          </p>
-          <button 
-            onClick={() => window.open('https://biem.agency/calendly', '_blank')}
-            className="w-full bg-biem-orange hover:bg-orange-500 text-white font-bold py-5 rounded-2xl flex items-center justify-center gap-3 transition-all transform hover:scale-[1.02]"
-          >
-            <Calendar size={22} /> Reservar mi Sesión <ChevronRight size={18} />
-          </button>
-          <p className="text-center text-[10px] text-gray-600 mt-6 uppercase tracking-widest font-bold">
-            Estrategas BIEM • Sin Compromiso • 30 Minutos de Valor
-          </p>
+
+          {/* Internal Classification */}
+          <div className="pt-6">
+            <button 
+              onClick={() => setShowAdmin(!showAdmin)}
+              className="text-[10px] text-biem-neutral hover:text-biem-purple font-bold uppercase tracking-widest flex items-center gap-2"
+            >
+              {showAdmin ? 'Ocultar Clasificación Interna' : 'Ver Clasificación Interna (Solo Admin)'}
+            </button>
+            
+            {showAdmin && (
+              <div className="mt-4 p-6 bg-gray-50 border border-dashed border-biem-light rounded-2xl grid grid-cols-2 md:grid-cols-4 gap-4 animate-in fade-in slide-in-from-top-2">
+                <div>
+                  <span className="block text-[9px] text-biem-neutral font-black uppercase mb-1">Madurez</span>
+                  <span className="text-biem-purple font-bold">{result.internalClassification.maturity}</span>
+                </div>
+                <div>
+                  <span className="block text-[9px] text-biem-neutral font-black uppercase mb-1">Urgencia</span>
+                  <span className="text-biem-purple font-bold">{result.internalClassification.urgency}</span>
+                </div>
+                <div>
+                  <span className="block text-[9px] text-biem-neutral font-black uppercase mb-1">Inversión</span>
+                  <span className="text-biem-purple font-bold">{result.internalClassification.investmentPotential}</span>
+                </div>
+                <div>
+                  <span className="block text-[9px] text-biem-neutral font-black uppercase mb-1">Score (0-100)</span>
+                  <span className="text-biem-orange font-black">{result.internalClassification.estimatedScore}</span>
+                </div>
+                <div className="col-span-2 md:col-span-4 pt-2 border-t border-biem-light">
+                  <span className="block text-[9px] text-biem-neutral font-black uppercase mb-1">Recomendación</span>
+                  <span className={`text-xs font-black uppercase tracking-widest ${result.internalClassification.recommendation === 'Prioritario' ? 'text-emerald-500' : 'text-biem-neutral'}`}>
+                    {result.internalClassification.recommendation}
+                  </span>
+                </div>
+              </div>
+            )}
+          </div>
+
+          {/* Closing Message */}
+          <div className="pt-10 border-t border-biem-light space-y-6">
+            <p className="text-biem-dark text-lg font-bold italic">
+              “La claridad profunda no se improvisa. Se construye.”
+            </p>
+            
+            <div className="bg-biem-orange/5 border border-biem-orange/10 p-8 rounded-3xl text-center space-y-6">
+              <h4 className="text-2xl font-black text-biem-purple">Agenda tu Sesión de Claridad Estratégica – 45 minutos</h4>
+              <p className="text-biem-orange font-bold uppercase tracking-widest text-sm">Solo 10 sesiones estratégicas disponibles cada mes.</p>
+              <button 
+                onClick={() => window.open('https://wa.me/message/7U7KBWNX7E2CP1', '_blank')}
+                className="w-full bg-biem-orange hover:bg-orange-700 text-white font-black py-6 rounded-2xl shadow-xl transition-all flex items-center justify-center gap-3 text-xl group"
+              >
+                Reservar mi Sesión vía WhatsApp <ArrowRight className="w-6 h-6 group-hover:translate-x-1 transition-transform" />
+              </button>
+            </div>
+          </div>
         </div>
       </div>
 
-      <div className="flex justify-between items-center text-gray-600 pt-8 border-t border-white/5">
-        <div className="flex gap-6 items-center">
-          <button onClick={onReset} className="text-xs hover:text-white flex items-center gap-2 transition-colors uppercase font-bold tracking-widest">
-            <RefreshCcw size={14} /> Repetir Análisis
-          </button>
-        </div>
-        <div className="text-[10px] text-gray-800 font-bold uppercase tracking-widest">
-          Biem Growth Coach v2.0
+      <div className="flex justify-center items-center text-biem-neutral pt-8 border-t border-biem-light">
+        <div className="text-[9px] text-biem-neutral font-black uppercase tracking-widest">
+          BIEM INSIGHT v4.0 • CONSULTORÍA ESTRATÉGICA
         </div>
       </div>
     </div>

@@ -1,35 +1,65 @@
 
 export interface DiagnosticInput {
   businessName: string;
-  websiteUrl: string;
-  socialLinks: string;
-  contactChannel: string;
-  mainGoal: string;
-  budgetRange: string;
-  majorChallenge: string;
-  businessDescription: string; // New field for business context
+  question1: string; // What do you do / business type
+  question2: string; // Biggest problem
+  email: string;
 }
 
-export interface CategoryScore {
+export type BusinessType = 'Tienda física' | 'E-commerce' | 'Servicios profesionales' | 'Agencia' | 'Marca personal' | 'Otro';
+
+export interface DiagnosticInput {
+  businessName: string;
+  businessType: BusinessType;
+  specificDetails: string; // Specifics based on business type
+  whatTheySell: string;
+  monthlyRevenue: string;
+  sixMonthGoal: string;
+  whatTheyHaveTried: string;
+  mainBrake: string;
+  organizationLevel: string;
+  clientSource: string;
+  email: string;
+}
+
+export interface GrowthRoute {
   name: string;
-  score: number;
-  observation: string;
+  description: string;
 }
 
-export interface PriorityAction {
-  title: string;
-  action: string;
-  impact: 'Alto' | 'Medio' | 'Bajo';
+export interface InternalClassification {
+  maturity: 'Bajo' | 'Medio' | 'Alto';
+  urgency: 'Baja' | 'Media' | 'Alta';
+  investmentPotential: string;
+  recommendation: 'Prioritario' | 'Seguimiento' | 'No prioritario';
+  estimatedScore: number;
 }
 
 export interface DiagnosticResult {
-  overallScore: number;
-  categories: CategoryScore[];
-  strengths: string[];
-  weaknesses: string[];
-  topPriorities: PriorityAction[];
-  educationalInsight: string;
+  isSuperficial: boolean;
+  superficialMessage?: string;
+  preliminarySignals: {
+    observations: string[]; // Exactly 2
+    possibleStructuralConflict: string; // Exactly 1
+  };
+  radiography: {
+    whatIsHappening: string;
+    whyIsHappening: string;
+    internalConflict: string;
+    postponedDecision: string;
+  };
+  mainBlindSpot: string;
+  sevenDayRoute: {
+    day1: string;
+    day2: string;
+    day3: string;
+    day4: string;
+    day5: string;
+    day6: string;
+    day7: string;
+  };
+  strategicLevel: 'Crítico' | 'Inestable' | 'En desarrollo' | 'Sólido';
+  strategicScore: number;
+  internalClassification: InternalClassification;
   summary: string;
-  coachToneMessage: string; // Added to capture the coach personality
-  groundingSources?: any[];
 }

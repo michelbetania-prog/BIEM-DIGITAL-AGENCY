@@ -1,362 +1,72 @@
-<!doctype html>
-<html lang="es">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Biem | Diagnóstico Estratégico Evolutivo</title>
 
-    <!-- TailwindCSS para construir una interfaz responsive y consistente -->
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BIEM Insight | Diagnóstico Estratégico</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <script>
       tailwind.config = {
         theme: {
           extend: {
             colors: {
-              biem: '#FF6B00'
+              biem: {
+                purple: '#371E68',
+                orange: '#E85D00',
+                dark: '#333333',
+                neutral: '#444444',
+                light: '#EEEEEE',
+                card: '#FFFFFF',
+              }
+            },
+            fontFamily: {
+              sans: ['Plus Jakarta Sans', 'sans-serif'],
             }
           }
         }
-      };
+      }
     </script>
-
-    <!-- Estilos personalizados para animaciones y componentes del formulario -->
-    <link rel="stylesheet" href="styles.css" />
-  </head>
-  <body class="bg-white text-slate-900 antialiased">
-    <main class="mx-auto w-full max-w-5xl px-5 py-10 sm:px-8 sm:py-14">
-      <!-- Hero principal: comunica evolución de servicio para clientes actuales -->
-      <section class="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm sm:p-10">
-        <p class="inline-flex rounded-full bg-orange-50 px-3 py-1 text-xs font-semibold tracking-wide text-biem">
-          BIEM CONSULTORÍA ESTRATÉGICA
-        </p>
-        <h1 class="mt-4 text-3xl font-bold leading-tight sm:text-5xl">
-          Si ya trabajas con nosotros, este diagnóstico nos permitirá llevar tu negocio al siguiente nivel.
-        </h1>
-        <p class="mt-4 max-w-3xl text-base leading-relaxed text-slate-700 sm:text-lg">
-          Hoy no solo gestionamos redes. Analizamos, detectamos brechas y estructuramos sistemas de marketing y ventas para escalar tu negocio.
-        </p>
-        <p class="mt-4 max-w-3xl text-sm leading-relaxed text-slate-600 sm:text-base">
-          Este formulario nos ayudará a mapear oportunidades de expansión, operación y crecimiento para diseñar una estrategia basada en resultados reales.
-        </p>
-        <button
-          id="startBtn"
-          type="button"
-          class="mt-8 inline-flex w-full items-center justify-center rounded-xl bg-biem px-6 py-4 text-base font-semibold text-white shadow-md transition hover:bg-orange-600 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-orange-200 sm:w-auto"
-        >
-          Comenzar Diagnóstico Estratégico
-        </button>
-      </section>
-
-      <!-- Sección del formulario: aparece mediante animación suave -->
-      <section id="formSection" class="mt-10 hidden-section" aria-hidden="true">
-        <form id="diagnosticForm" novalidate class="space-y-8">
-          <!-- BLOQUE 1 -->
-          <article class="block-card">
-            <h2 class="block-title">Bloque 1 – Visión de Negocio</h2>
-            <div class="grid gap-4 sm:grid-cols-2">
-              <label class="field-group">Meta en 12 meses*
-                <input required name="meta12" type="text" class="field-input" placeholder="Ej. Duplicar la facturación" />
-              </label>
-              <label class="field-group">Facturación mensual deseada*
-                <input required name="facturacionDeseada" type="number" min="0" class="field-input" placeholder="Ej. 30000" />
-              </label>
-              <label class="field-group">Ticket promedio actual*
-                <input required name="ticketPromedio" type="number" min="0" class="field-input" placeholder="Ej. 1200" />
-              </label>
-              <label class="field-group">Número de clientes necesarios por mes*
-                <input required name="clientesMes" type="number" min="0" class="field-input" placeholder="Ej. 25" />
-              </label>
-            </div>
-          </article>
-
-          <!-- BLOQUE 2 -->
-          <article class="block-card">
-            <h2 class="block-title">Bloque 2 – Objetivo Principal</h2>
-            <div class="grid gap-4 sm:grid-cols-2">
-              <label class="field-group">Objetivo principal*
-                <select required name="objetivoPrincipal" class="field-input">
-                  <option value="">Selecciona una opción</option>
-                  <option>Generar leads</option>
-                  <option>Cerrar más ventas</option>
-                  <option>Subir precios</option>
-                  <option>Posicionamiento</option>
-                  <option>Lanzamiento</option>
-                </select>
-              </label>
-              <label class="field-group">Urgencia para lograrlo*
-                <select required name="urgencia" class="field-input">
-                  <option value="">Selecciona</option>
-                  <option value="alta">Alta (ahora)</option>
-                  <option value="media">Media (próximos meses)</option>
-                  <option value="baja">Baja (sin urgencia)</option>
-                </select>
-              </label>
-              <label class="field-group sm:col-span-2">¿Qué resultado esperas en 90 días?*
-                <textarea required name="resultado90" class="field-input min-h-28" placeholder="Describe el resultado que esperas lograr"></textarea>
-              </label>
-            </div>
-          </article>
-
-          <!-- BLOQUE NUEVO: RESULTADOS ACTUALES CON BIEM -->
-          <article class="block-card">
-            <h2 class="block-title">Bloque 3 – Resultados Actuales con Biem</h2>
-            <div class="grid gap-4 sm:grid-cols-2">
-              <label class="field-group sm:col-span-2">Desde que trabajas con nosotros, ¿qué has notado que ha mejorado?*
-                <textarea required name="mejorasConBiem" class="field-input min-h-24" placeholder="Percepción de valor actual"></textarea>
-              </label>
-              <label class="field-group sm:col-span-2">¿Qué sientes que todavía no estamos explotando al máximo?*
-                <textarea required name="noExplotado" class="field-input min-h-24" placeholder="Oportunidades de mejora"></textarea>
-              </label>
-              <label class="field-group">Del 1 al 10, ¿qué tan alineado sientes tu marketing con tus metas reales?*
-                <input required name="alineacionMarketing" type="number" min="1" max="10" class="field-input" placeholder="Del 1 al 10" />
-              </label>
-            </div>
-          </article>
-
-          <!-- BLOQUE 4 -->
-          <article class="block-card">
-            <h2 class="block-title">Bloque 4 – Modelo de Venta Actual</h2>
-            <div class="grid gap-4 sm:grid-cols-2">
-              <label class="field-group">¿Cómo llegan hoy tus clientes?*
-                <textarea required name="llegadaClientes" class="field-input min-h-24" placeholder="Canales actuales"></textarea>
-              </label>
-              <label class="field-group">¿Quién cierra la venta?*
-                <input required name="quienCierra" type="text" class="field-input" placeholder="Ej. Fundador / equipo comercial" />
-              </label>
-              <label class="field-group">Objeciones frecuentes*
-                <textarea required name="objeciones" class="field-input min-h-24" placeholder="Principales frenos de compra"></textarea>
-              </label>
-              <label class="field-group">Tiempo promedio de cierre*
-                <input required name="tiempoCierre" type="text" class="field-input" placeholder="Ej. 7 días" />
-              </label>
-            </div>
-          </article>
-
-          <!-- BLOQUE 5 -->
-          <article class="block-card">
-            <h2 class="block-title">Bloque 5 – Cliente Ideal</h2>
-            <div class="grid gap-4 sm:grid-cols-2">
-              <label class="field-group">Perfil de cliente ideal*
-                <textarea required name="clienteIdeal" class="field-input min-h-24" placeholder="Características principales"></textarea>
-              </label>
-              <label class="field-group">¿Qué lo frena para comprar?*
-                <textarea required name="frenoCompra" class="field-input min-h-24" placeholder="Barreras frecuentes"></textarea>
-              </label>
-              <label class="field-group">¿Qué lo hace decir sí?*
-                <textarea required name="gatilloSi" class="field-input min-h-24" placeholder="Motivadores de decisión"></textarea>
-              </label>
-              <label class="field-group">Tipo de cliente que NO quieres atraer*
-                <textarea required name="clienteNoDeseado" class="field-input min-h-24" placeholder="Describe a quién prefieres evitar"></textarea>
-              </label>
-            </div>
-          </article>
-
-          <!-- BLOQUE 6 -->
-          <article class="block-card">
-            <h2 class="block-title">Bloque 6 – Métricas Actuales</h2>
-            <div class="grid gap-4 sm:grid-cols-2">
-              <label class="field-group">Seguidores actuales*
-                <input required name="seguidores" type="number" min="0" class="field-input" placeholder="Ej. 14500" />
-              </label>
-              <label class="field-group">Leads promedio mensual*
-                <input required name="leadsMensuales" type="number" min="0" class="field-input" placeholder="Ej. 120" />
-              </label>
-              <label class="field-group">Ventas por redes*
-                <input required name="ventasRedes" type="number" min="0" class="field-input" placeholder="Ej. 15" />
-              </label>
-              <label class="field-group">Inversión mensual en publicidad*
-                <input required name="inversionAds" type="number" min="0" class="field-input" placeholder="Ej. 1000" />
-              </label>
-            </div>
-          </article>
-
-          <!-- BLOQUE NUEVO: OPERACIÓN INTERNA -->
-          <article class="block-card">
-            <h2 class="block-title">Bloque 7 – Operación Interna</h2>
-            <div class="grid gap-4 sm:grid-cols-2">
-              <label class="field-group">¿Cómo gestionas hoy tus leads?*
-                <select required name="gestionLeads" class="field-input">
-                  <option value="">Selecciona</option>
-                  <option>Los respondo manualmente</option>
-                  <option>Tengo equipo de ventas</option>
-                  <option>No tengo seguimiento estructurado</option>
-                  <option>Uso CRM</option>
-                </select>
-              </label>
-              <label class="field-group">¿Cómo mides resultados?*
-                <select required name="medicionResultados" class="field-input">
-                  <option value="">Selecciona</option>
-                  <option>No los mido</option>
-                  <option>Veo métricas básicas</option>
-                  <option>Analizo conversiones</option>
-                  <option>Tengo reportes claros</option>
-                </select>
-              </label>
-            </div>
-          </article>
-
-          <!-- BLOQUE NUEVO: EMBUDO -->
-          <article class="block-card">
-            <h2 class="block-title">Bloque 8 – Diagnóstico de Embudo</h2>
-            <div class="grid gap-4 sm:grid-cols-2">
-              <label class="field-group">¿Cómo conviertes hoy a tus seguidores en clientes?*
-                <select required name="conversionSeguidores" class="field-input">
-                  <option value="">Selecciona</option>
-                  <option>Les escriben por DM</option>
-                  <option>Me escriben por WhatsApp</option>
-                  <option>Solo publico contenido</option>
-                  <option>Tengo página web pero no sé si convierte</option>
-                  <option>Tengo embudo estructurado</option>
-                </select>
-              </label>
-              <label class="field-group">¿Tienes una ruta clara desde que alguien te descubre hasta que compra?*
-                <select required name="rutaCompra" class="field-input">
-                  <option value="">Selecciona</option>
-                  <option>Sí, totalmente</option>
-                  <option>Más o menos</option>
-                  <option>No</option>
-                </select>
-              </label>
-              <label class="field-group">¿Sabes tu tasa de conversión?*
-                <select required name="tasaConversion" class="field-input">
-                  <option value="">Selecciona</option>
-                  <option>Sí</option>
-                  <option>No</option>
-                  <option>Nunca la he medido</option>
-                </select>
-              </label>
-            </div>
-          </article>
-
-          <!-- BLOQUE NUEVO: DIRECCIÓN COMERCIAL -->
-          <article class="block-card">
-            <h2 class="block-title">Bloque 9 – Dirección Comercial</h2>
-            <div class="grid gap-4 sm:grid-cols-2">
-              <label class="field-group">¿Tienes proceso de seguimiento después del primer contacto?*
-                <select required name="seguimientoContacto" class="field-input">
-                  <option value="">Selecciona</option>
-                  <option>Sí, estructurado</option>
-                  <option>A veces</option>
-                  <option>No</option>
-                </select>
-              </label>
-              <label class="field-group">¿Cuántos leads se pierden por falta de seguimiento?*
-                <select required name="leadsPerdidos" class="field-input">
-                  <option value="">Selecciona</option>
-                  <option>Ninguno</option>
-                  <option>Algunos</option>
-                  <option>Muchos</option>
-                </select>
-              </label>
-              <label class="field-group">¿Tu equipo sabe exactamente cómo cerrar una venta?*
-                <select required name="procesoCierreEquipo" class="field-input">
-                  <option value="">Selecciona</option>
-                  <option>Sí</option>
-                  <option>Más o menos</option>
-                  <option>No tengo equipo</option>
-                </select>
-              </label>
-            </div>
-          </article>
-
-          <!-- BLOQUE NUEVO: AUTOMATIZACIÓN -->
-          <article class="block-card">
-            <h2 class="block-title">Bloque 10 – Automatización</h2>
-            <div class="grid gap-4 sm:grid-cols-2">
-              <label class="field-group">¿Cómo gestionas tus contactos?*
-                <select required name="gestionContactos" class="field-input">
-                  <option value="">Selecciona</option>
-                  <option>Manualmente</option>
-                  <option>Excel</option>
-                  <option>CRM</option>
-                  <option>No llevo control</option>
-                </select>
-              </label>
-              <label class="field-group">¿Tienes automatizaciones activas?*
-                <select required name="automatizacionesActivas" class="field-input">
-                  <option value="">Selecciona</option>
-                  <option>Sí</option>
-                  <option>No</option>
-                  <option>No sé qué es eso</option>
-                </select>
-              </label>
-              <label class="field-group">¿Cuánto tiempo pierdes respondiendo lo mismo todos los días?*
-                <select required name="tiempoRespuestaRepetida" class="field-input">
-                  <option value="">Selecciona</option>
-                  <option>Poco</option>
-                  <option>Mucho</option>
-                  <option>Demasiado</option>
-                </select>
-              </label>
-            </div>
-          </article>
-
-          <!-- BLOQUE NUEVO: AMBICIÓN REAL -->
-          <article class="block-card">
-            <h2 class="block-title">Bloque 11 – Ambición Real</h2>
-            <label class="field-group">Si tu negocio duplicara sus ventas en 6 meses, ¿tendrías estructura para sostenerlo?*
-              <select required name="estructuraEscalar" class="field-input sm:max-w-lg">
-                <option value="">Selecciona</option>
-                <option>Sí</option>
-                <option>No estoy seguro</option>
-                <option>No</option>
-              </select>
-            </label>
-          </article>
-
-          <!-- BLOQUE 12 -->
-          <article class="block-card">
-            <h2 class="block-title">Bloque 12 – Compromiso</h2>
-            <div class="grid gap-4 sm:grid-cols-2">
-              <label class="field-group">¿Estás dispuesto a grabar contenido?*
-                <select required name="grabarContenido" class="field-input">
-                  <option value="">Selecciona</option>
-                  <option>Sí</option>
-                  <option>No</option>
-                </select>
-              </label>
-              <label class="field-group">¿Estás dispuesto a invertir en publicidad?*
-                <select required name="invertirAds" class="field-input">
-                  <option value="">Selecciona</option>
-                  <option>Sí</option>
-                  <option>No</option>
-                </select>
-              </label>
-              <label class="field-group sm:col-span-2">Nivel de compromiso (1-10)*
-                <input required name="nivelCompromiso" type="number" min="1" max="10" class="field-input" placeholder="Del 1 al 10" />
-              </label>
-            </div>
-          </article>
-
-          <!-- Sección solicitada de oportunidades abiertas -->
-          <article class="block-card">
-            <h2 class="block-title">🔎 Oportunidades que aún no hemos trabajado</h2>
-            <label class="field-group">¿Qué crees que podríamos estar haciendo diferente para acelerar tu crecimiento?*
-              <textarea required name="oportunidadesNoTrabajadas" class="field-input min-h-32" placeholder="Comparte ideas, fricciones o nuevas oportunidades"></textarea>
-            </label>
-          </article>
-
-          <!-- Campo oculto para almacenar clasificación interna no visible al cliente -->
-          <input type="hidden" id="internalScores" name="internalScores" />
-
-          <button
-            type="submit"
-            class="w-full rounded-xl bg-biem px-6 py-4 text-lg font-bold text-white shadow-lg transition hover:bg-orange-600 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-orange-200"
-          >
-            Enviar Diagnóstico
-          </button>
-        </form>
-
-        <div id="successMessage" class="success-message" role="status" aria-live="polite">
-          <p>
-            Gracias por dar este paso estratégico. Nuestro equipo analizará tu información y te contactaremos para estructurar tu plan de crecimiento.
-          </p>
-          <p id="diagnosticInsight" class="mt-3"></p>
-        </div>
-      </section>
-    </main>
-
-    <!-- Lógica JavaScript separada para validación y clasificación interna -->
-    <script src="script.js"></script>
-  </body>
+    <style>
+        body {
+            background-color: #FFFFFF;
+            color: #444444;
+            overflow-x: hidden;
+        }
+        .orange-glow {
+            box-shadow: 0 10px 30px -5px rgba(232, 93, 0, 0.1);
+        }
+        .step-line::after {
+          content: '';
+          position: absolute;
+          top: 50%;
+          left: 100%;
+          width: 100%;
+          height: 1px;
+          background: #EEEEEE;
+          z-index: 0;
+        }
+        @media (max-width: 768px) {
+          .step-line::after { display: none; }
+        }
+    </style>
+<script type="importmap">
+{
+  "imports": {
+    "react": "https://esm.sh/react@^19.2.4",
+    "react-dom/": "https://esm.sh/react-dom@^19.2.4/",
+    "react/": "https://esm.sh/react@^19.2.4/",
+    "@google/genai": "https://esm.sh/@google/genai@^1.42.0",
+    "recharts": "https://esm.sh/recharts@^3.7.0",
+    "lucide-react": "https://esm.sh/lucide-react@^0.575.0"
+  }
+}
+</script>
+<link rel="stylesheet" href="/index.css">
+</head>
+<body class="min-h-screen">
+    <div id="root"></div>
+<script type="module" src="/index.tsx"></script>
+</body>
 </html>
